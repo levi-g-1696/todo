@@ -19,5 +19,8 @@ tasks:string[]=[];
     this.tasks.push(addForm.value.task);
     addForm.resetForm();
   }
+  handleRemove(t:string){
+    this.tasks= this.tasks.filter((mytask)=> mytask !=t);
+  }
 
 }
