@@ -1,26 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+interface Task {
+name:string;
+isUpdated:boolean;
 
+}
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css']
 })
 export class TodoComponent implements OnInit {
-tasks:string[]=[];
+tasks:Task[]=[];
   constructor() { 
-    this.tasks= ["task1",
-     "task2"]
+    
   }
 
   ngOnInit(): void {
   }
   handleSubmit(addForm:NgForm) :void {
-    this.tasks.push(addForm.value.task);
+    this.tasks.push({ name: addForm.value.task , isUpdated:false});
+    
     addForm.resetForm();
   }
-  handleRemove(t:string){
-    this.tasks= this.tasks.filter((mytask)=> mytask !=t);
+  handleRemove(removedTask:string){
+    this.tasks = this.tasks.filter( (task) => task.name != removedTask);
   }
-
+  handleUpdate(updatedTask:Task) {
+    updatedTask.isUpdated = true;
+  }
+// updatedTaskObject:Task  - var with interface Task
+  handleSubmitUpdate(newName:string, oldName:string):void {
+    let updatedTaskObject:Task = this.tasks.filter(t => t.name === oldName)[0];
+    updatedTaskObject.name = newName;
+    updatedTaskObject.isUpdated = false;
+  }
 }
